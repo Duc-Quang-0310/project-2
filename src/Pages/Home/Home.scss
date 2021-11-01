@@ -1,0 +1,87 @@
+@import "../../Sass/variable";
+
+.wrapper {
+  background-color: $bg-color;
+  min-height: 100vh;
+
+  .static {
+    cursor: pointer;
+    i {
+      font-size: 35px;
+    }
+
+    .card-color {
+      &-1 {
+        background-color: $search-btn;
+      }
+      &-2 {
+        background-color: $icon-bg-green;
+      }
+      &-3 {
+        background-color: $icon-bg-blue;
+      }
+      &-4 {
+        background-color: $icon-bg-red;
+      }
+    }
+
+    .card-icon {
+      &-1 {
+        color: $search-btn;
+        background-color: $white;
+      }
+      &-2 {
+        color: $icon-bg-green;
+        background-color: $white;
+      }
+      &-3 {
+        color: $icon-bg-blue;
+        background-color: $white;
+      }
+      &-4 {
+        color: $icon-bg-red;
+        background-color: $white;
+      }
+    }
+
+    .text-white {
+      color: $white;
+    }
+  }
+
+  .number-container,
+  .employee-container {
+    background-color: $white;
+
+    .employee-bg {
+      background-color: $employee-bg;
+      height: 80px;
+      width: 100%;
+    }
+  }
+}
+
+.center-text {
+  text-align: center;
+}
+
+.text-end {
+  text-align: end;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none !important;
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+.fw-500 {
+  font-weight: 500;
+}

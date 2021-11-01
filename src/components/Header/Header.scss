@@ -1,0 +1,45 @@
+@import "../../Sass/variable";
+
+.header {
+  background-color: $white;
+
+  &-logo {
+    cursor: pointer;
+    img {
+      width: 100px;
+    }
+  }
+  &-search {
+    input {
+      border: none;
+      outline: none;
+      border-bottom: 2px solid $search-input-border;
+      width: 30vw;
+    }
+  }
+
+  .btn-search {
+    background-color: $search-btn;
+    border-color: $search-btn;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: $hover-color !important;
+      border-color: $hover-color !important;
+    }
+  }
+
+  &-notification-icon {
+    cursor: pointer;
+
+    i {
+      font-size: 18px;
+      color: $white;
+    }
+
+    &:hover {
+      background-color: $hover-color !important;
+    }
+  }
+}
