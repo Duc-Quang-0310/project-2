@@ -73,15 +73,28 @@
   cursor: pointer;
 }
 
-a {
-  text-decoration: none !important;
+.fw-500 {
+  font-weight: 500;
+}
 
-  &:hover,
-  &:focus {
-    text-decoration: none;
+.icon {
+  &-edit {
+    background-color: $icon-bg-blue;
+    i {
+      color: $white;
+    }
+  }
+
+  &-delete {
+    background-color: $icon-bg-red;
+    i {
+      color: $white;
+    }
   }
 }
 
-.fw-500 {
-  font-weight: 500;
+.add-order-btn {
+  margin-left: auto;
+  background-color: $icon-bg-green !important;
+  border-color: $icon-bg-green !important ;
 }

@@ -1,5 +1,6 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
 @import "bootstrap-icons/font/bootstrap-icons.css";
+@import "./variable";
 
 body {
   margin: 0;
@@ -13,4 +14,25 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+a {
+  text-decoration: none !important;
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+body::-webkit-scrollbar {
+  width: 0.675rem;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: #dcdcdc;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: $hover-color;
 }

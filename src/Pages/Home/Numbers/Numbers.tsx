@@ -76,7 +76,7 @@ export const Numbers: React.FunctionComponent = () => {
             <Chart ChartData={ChartData} />
           </div>
           <div className="employee-container mt-3 p-2 ">
-            <h4>Nhân viên</h4>
+            <h4>Nhân viên tiêu biểu</h4>
             <Row>
               {EmployeeData.map((employee, index) => {
                 return (

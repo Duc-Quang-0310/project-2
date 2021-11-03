@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 import { Row, Col, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import orderData from "../../../Constants/Data/fakeData";
 import { route } from "../../../Constants/Routes/routesName";
 
 interface dataTypes {
@@ -21,7 +22,7 @@ export const Static: React.FC = () => {
       to: route.HOME,
     },
     {
-      view: 250,
+      view: orderData.length,
       quote: "Số đơn hàng trong dữ liệu",
       icon: (
         <i className="bi bi-receipt card-icon-2 rounded-circle  px-3 py-1 "></i>

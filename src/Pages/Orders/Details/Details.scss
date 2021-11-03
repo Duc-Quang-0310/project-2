@@ -1,0 +1,67 @@
+@import "../../../Sass/variable";
+
+.order-details {
+  .icon-wrapper {
+    &-done {
+      background-color: $icon-bg-green;
+    }
+    &-pending {
+      background-color: $search-btn;
+    }
+    &-cancel {
+      background-color: $icon-bg-red;
+    }
+  }
+
+  .icon-done {
+    font-size: 6rem;
+    color: $white;
+  }
+
+  h3 {
+    letter-spacing: 2px;
+  }
+}
+
+.details-user {
+  background-color: $user-bg;
+  min-height: 200px;
+  max-height: 300px;
+
+  &-avatar {
+    width: 60%;
+    height: 130px;
+    object-fit: cover;
+  }
+}
+
+.details-employee {
+  background-color: $employee-bg;
+}
+
+.details-list {
+  li {
+    list-style: none;
+  }
+}
+
+.details-edit-btn {
+  margin-left: auto;
+
+  .bi-pencil {
+    margin-left: 10px;
+  }
+}
+
+.details-back-btn {
+  .bi-arrow-left {
+    margin-right: 10px;
+  }
+}
+
+.details-delete-btn {
+  margin-left: 10px;
+  .bi-x-lg {
+    margin-left: 10px;
+  }
+}
