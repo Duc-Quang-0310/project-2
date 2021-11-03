@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Col, Row, Card, Button } from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
 import { Header } from "../../../components/Header/Header";
@@ -59,6 +59,10 @@ export const OrderDetails: React.FunctionComponent = () => {
       );
     }
   }
+
+  useEffect(() => {
+    document.title = "Chi tiết đơn hàng";
+  }, []);
 
   return (
     <div className="wrapper">

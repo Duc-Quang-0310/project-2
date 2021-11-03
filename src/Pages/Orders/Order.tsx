@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { Header } from "../../components/Header/Header";
 import { Data } from "./data/Data";
@@ -9,6 +9,9 @@ export const Order: React.FunctionComponent = () => {
     "total"
   );
 
+  useEffect(() => {
+    document.title = "Đơn hàng";
+  }, []);
   return (
     <div className="wrapper">
       <Header />
