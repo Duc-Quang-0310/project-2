@@ -140,7 +140,7 @@ export const OrderDetails: React.FunctionComponent = () => {
                   </div>
                 </Col>
                 <Col sm={7}>
-                  <h5 className="mb-3 text-center mt-2 ">Nhân viên</h5>
+                  <h5 className="mb-3 text-center mt-2">Nhân viên</h5>
                   <p className="mb-1">
                     <strong>Họ và tên: </strong> Nguyễn Đức Lợi
                   </p>
