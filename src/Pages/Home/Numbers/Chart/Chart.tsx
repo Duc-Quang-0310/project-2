@@ -14,9 +14,13 @@ export const Chart: React.FC<Props> = ({ ChartData }) => {
           plugins: {
             title: {
               display: true,
-              text: "Số đơn hàng trong năm 2021",
+              text: "Tổng số lượng các sản phẩm đã được bán",
               font: {
                 size: 23,
+              },
+              padding: {
+                top: 10,
+                bottom: 10,
               },
             },
 

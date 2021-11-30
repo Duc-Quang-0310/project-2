@@ -6,7 +6,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import { route } from "./Constants/Routes/routesName";
-import routes from "./Constants/Routes/routes";
+import { finalRoutes } from "./Constants/Routes/routes";
 import "./Sass/App.scss";
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
     <div>
       <Router>
         <Switch>
-          {routes.map((route, index) => {
+          {finalRoutes().map((route, index) => {
             return (
               <Route
                 key={index}
@@ -24,7 +24,13 @@ function App() {
               />
             );
           })}
-          <Redirect to={route.HOME} />
+          <>
+            {finalRoutes().length === 1 ? (
+              <Redirect to={route.LOGIN} />
+            ) : (
+              <Redirect to={route.HOME} />
+            )}
+          </>
         </Switch>
       </Router>
     </div>

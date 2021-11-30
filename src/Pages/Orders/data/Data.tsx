@@ -1,19 +1,29 @@
-import React, { useState } from "react";
-import { Button, Table, OverlayTrigger, Tooltip, Modal } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Button, Table, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { ModalComponents } from "../../../components/Modals/ModalComponents";
-import orderData, { iFakeData } from "../../../Constants/Data/fakeData";
+import { xmlService } from "../../../services/XmlHttpRequest";
 
 interface Props {
   filter: "total" | "done" | "pending" | "cancel";
 }
 
+export interface ordersDataTypes {
+  order_id: number;
+  employee_ID: number;
+  quantity: number;
+  status: string;
+  finish_date: Date;
+}
+
 export const Data: React.FC<Props> = ({ filter }) => {
   const [ShowModal, setShowModal] = useState(false);
+  const [orders, setOrders] = useState<any[]>([]);
   const [modalAction, setModalAction] = useState<
     "create" | "update" | "delete" | ""
   >("");
   const history = useHistory();
+
   function convertStatus(status: string) {
     if (status === "done") {
       return "Đã giao hàng";
@@ -37,32 +47,32 @@ export const Data: React.FC<Props> = ({ filter }) => {
       return <h5 className="text-uppercase">Đơn hàng bị huỷ</h5>;
   };
 
-  const redirect = (data: iFakeData) => {
+  const redirect = (data: ordersDataTypes) => {
     history.push(
-      `/orders/${data.dataID}&${data.employeeID}&${data.numberOfProducts}&${data.status}&${data.time}`
+      `/orders/${data.order_id}&${data.employee_ID}&${data.quantity}&${data.status}&${data.finish_date}`
     );
   };
 
-  const renderTable = (data: iFakeData, index: any): any => {
+  const renderTable = (data: ordersDataTypes, index: any): any => {
     return (
       <tr key={index} className="cursor-pointer">
         <td className="text-center" onClick={() => redirect(data)}>
-          {data.number}
+          {data.order_id}
         </td>
         <td className="text-center" onClick={() => redirect(data)}>
-          {data.dataID}
+          {data.order_id}
         </td>
         <td className="text-center" onClick={() => redirect(data)}>
-          {data.employeeID}
+          {data.employee_ID}
         </td>
         <td className="text-center" onClick={() => redirect(data)}>
-          {data.numberOfProducts}
+          {data.quantity}
         </td>
         <td className="text-center fw-500" onClick={() => redirect(data)}>
-          {orderData && convertStatus(data.status)}
+          {data && convertStatus(data.status)}
         </td>
         <td className="text-center" onClick={() => redirect(data)}>
-          {data.time}
+          {data.finish_date}
         </td>
         <td className="text-center">
           <div className="d-flex justify-content-center ">
@@ -92,6 +102,19 @@ export const Data: React.FC<Props> = ({ filter }) => {
       </tr>
     );
   };
+
+  const getAllOrders = async () => {
+    const response = await xmlService.getAllOrders();
+
+    if (response?.success) {
+      setOrders(response?.message);
+    }
+  };
+  console.log(orders);
+
+  useEffect(() => {
+    getAllOrders();
+  }, []);
 
   return (
     <div className="mx-4">
@@ -128,8 +151,8 @@ export const Data: React.FC<Props> = ({ filter }) => {
         </thead>
         <tbody className="my-link">
           {filter === "total" &&
-            orderData.map((item, index) => renderTable(item, index))}
-          {orderData
+            orders.map((item, index) => renderTable(item, index))}
+          {orders
             .filter((data) => data.status === filter)
             .map((data, index) => renderTable(data, index))}
         </tbody>

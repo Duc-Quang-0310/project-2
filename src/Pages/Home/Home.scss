@@ -57,6 +57,16 @@
       background-color: $employee-bg;
       height: 80px;
       width: 100%;
+
+      .employee-img {
+        object-fit: fill;
+        height: 80px;
+        width: 80px;
+        bottom: -40%;
+        left: 0;
+        right: 0;
+        margin-inline: auto;
+      }
     }
   }
 }

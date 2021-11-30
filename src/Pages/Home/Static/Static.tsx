@@ -1,17 +1,31 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { Row, Col, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import orderData from "../../../Constants/Data/fakeData";
 import { route } from "../../../Constants/Routes/routesName";
+import { xmlService } from "../../../services/XmlHttpRequest";
 
 interface dataTypes {
-  view: number;
+  view: number | undefined;
   quote: string;
   icon: ReactNode;
   to: string;
 }
 
 export const Static: React.FC = () => {
+  const [quantity, setQuantity] = useState<number | undefined>();
+
+  const getAllOrders = async () => {
+    const response = await xmlService.getAllOrders();
+
+    if (response?.success) {
+      setQuantity(response?.message.length);
+    }
+  };
+
+  useEffect(() => {
+    getAllOrders();
+  }, []);
+
   const data: dataTypes[] = [
     {
       view: 150,
@@ -22,7 +36,7 @@ export const Static: React.FC = () => {
       to: route.HOME,
     },
     {
-      view: orderData.length,
+      view: quantity,
       quote: "Số đơn hàng trong dữ liệu",
       icon: (
         <i className="bi bi-receipt card-icon-2 rounded-circle  px-3 py-1 "></i>

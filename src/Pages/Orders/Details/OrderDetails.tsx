@@ -3,6 +3,7 @@ import { Container, Col, Row, Card, Button } from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
 import { Header } from "../../../components/Header/Header";
 import { ModalComponents } from "../../../components/Modals/ModalComponents";
+import { xmlService } from "../../../services/XmlHttpRequest";
 import "./Details.scss";
 
 interface params {
@@ -10,28 +11,52 @@ interface params {
 }
 
 interface orderData {
-  orderID: string;
-  employeeID: string;
+  order_id: number;
+  employee_ID: number;
   quantity: number;
   status: string;
-  time: string;
+  finish_date: string;
 }
 
 export const OrderDetails: React.FunctionComponent = () => {
   const { params }: params = useParams();
   const history = useHistory();
   const [ShowModal, setShowModal] = useState(false);
+  const [data, setData] = useState<any>({});
+  const [employee, setEmployee] = useState<any>({});
   const [modalAction, setModalAction] = useState<
     "create" | "update" | "delete" | ""
   >("");
 
   const orderData: orderData = {
-    orderID: params.split("&")[0],
-    employeeID: params.split("&")[1],
+    order_id: Number(params.split("&")[0]),
+    employee_ID: Number(params.split("&")[1]),
     quantity: parseInt(params.split("&")[2]),
     status: params.split("&")[3],
-    time: params.split("&")[4],
+    finish_date: params.split("&")[4],
   };
+
+  const getOneOrder = async () => {
+    const response = await xmlService.getOneOrder(orderData.order_id);
+    if (response?.success) {
+      setData(response?.message[0]);
+    }
+  };
+
+  const getEmployee = async () => {
+    const response = await xmlService.getEmployee(orderData.employee_ID);
+    if (response?.success) {
+      setEmployee(response?.message);
+    }
+  };
+
+  useEffect(() => {
+    getOneOrder();
+    getEmployee();
+  }, []);
+
+  console.log(data);
+  console.log(employee);
 
   function render(status: string) {
     if (status === "done") {
@@ -98,9 +123,7 @@ export const OrderDetails: React.FunctionComponent = () => {
             <i className="bi bi-x-lg "></i>
           </Button>
         </div>
-        <div className="order-details mt-3 mb-3">
-          {render(orderData.status)}
-        </div>
+        <div className="order-details mt-3 mb-3">{render(data.status)}</div>
         <Row>
           <Col sm={12} md={6} className="px-4 mb-2">
             <Card>
@@ -108,7 +131,7 @@ export const OrderDetails: React.FunctionComponent = () => {
                 <Col sm={5}>
                   <div className="details-user rounded d-flex align-items-center justify-content-center">
                     <img
-                      src="/imgs/man1.jpg"
+                      src={data.client_image}
                       alt="user-avatar"
                       className="details-user-avatar rounded-circle"
                     />
@@ -117,11 +140,10 @@ export const OrderDetails: React.FunctionComponent = () => {
                 <Col sm={7}>
                   <h5 className="mb-3 text-center mt-2 ">Khách hàng</h5>
                   <p className="mb-1">
-                    <strong>Họ và tên: </strong> Nguyễn Văn Long
+                    <strong>Họ và tên: </strong> {data.client_name}
                   </p>
                   <p className="mb-1">
-                    <strong>Địa chỉ giao hàng: </strong> Số 4, Ngõ 56, Ngách 16,
-                    Tổ dân phố Hoàng Liên 1, Liên Mạc, Bắc Từ Liêm, Hà Nội
+                    <strong>Địa chỉ giao hàng: </strong> {data.address}
                   </p>
                 </Col>
               </Row>
@@ -133,7 +155,7 @@ export const OrderDetails: React.FunctionComponent = () => {
                 <Col sm={5}>
                   <div className="details-user rounded d-flex align-items-center justify-content-center details-employee">
                     <img
-                      src="/imgs/man2.jpg"
+                      src={employee.employee_image}
                       alt="user-avatar"
                       className="details-user-avatar rounded-circle"
                     />
@@ -142,13 +164,16 @@ export const OrderDetails: React.FunctionComponent = () => {
                 <Col sm={7}>
                   <h5 className="mb-3 text-center mt-2">Nhân viên</h5>
                   <p className="mb-1">
-                    <strong>Họ và tên: </strong> Nguyễn Đức Lợi
+                    <strong>Họ và tên: </strong> {employee.name}
                   </p>
                   <p className="mb-1">
-                    <strong>Mã nhân viên: </strong> {orderData.employeeID}
+                    <strong>Mã nhân viên: </strong> {employee.employee_id}
                   </p>
                   <p className="mb-1">
-                    <strong>Email: </strong> example@gmail.com
+                    <strong>Email: </strong> {employee.email}
+                  </p>
+                  <p className="mb-1">
+                    <strong>Số điện thoại: </strong> {employee.phonenumber}
                   </p>
                 </Col>
               </Row>
@@ -168,19 +193,19 @@ export const OrderDetails: React.FunctionComponent = () => {
                 <li>
                   <p className="mb-1">
                     <strong>Mã đơn hàng: </strong>
-                    {orderData.orderID}
+                    {orderData.order_id}
                   </p>
                 </li>
                 <li>
                   <p className="mb-1">
                     <strong>Số lượng: </strong>
-                    {orderData.quantity}
+                    {data.quantity}
                   </p>
                 </li>
                 <li>
                   <p className="mb-1">
                     <strong>Thời gian: </strong>
-                    {orderData.time}
+                    {data.finish_date}
                   </p>
                 </li>
                 <li>
@@ -191,15 +216,15 @@ export const OrderDetails: React.FunctionComponent = () => {
                         <Card.Img
                           className="p-2"
                           variant="top"
-                          src="/imgs/macbook.jfif"
+                          src={data.product_image}
                         />
                         <Card.Body className="pt-0">
-                          <h6 className="text-center">
-                            Macbook Air 2020 Apple M1
-                          </h6>
-                          <p className="text-center">24.990.000đ</p>
+                          <h6 className="text-center">{data.product_name}</h6>
+                          <p className="text-center">{data.product_price}</p>
 
-                          <p className="text-center fw-500 mb-0">x1</p>
+                          <p className="text-center fw-500 mb-0">
+                            x{data.quantity}
+                          </p>
                         </Card.Body>
                       </Card>
                     </Col>

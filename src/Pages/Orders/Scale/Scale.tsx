@@ -1,6 +1,7 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { Col, Row, Card } from "react-bootstrap";
-import orderData, { iFakeData } from "../../../Constants/Data/fakeData";
+import { xmlService } from "../../../services/XmlHttpRequest";
+import { ordersDataTypes } from "../data/Data";
 
 interface dataTypes {
   total: number;
@@ -17,8 +18,20 @@ export const Scale: React.FC<Props> = ({ setfilter }) => {
   const [Done, setDone] = useState<number>(0);
   const [Pending, setPending] = useState<number>(0);
   const [Cancel, setCancel] = useState<number>(0);
+  const [orders, setOrders] = useState<any[]>([]);
 
-  function getValue(type: "done" | "pending" | "cancel", data: iFakeData[]) {
+  const getAllOrders = async () => {
+    const response = await xmlService.getAllOrders();
+
+    if (response?.success) {
+      setOrders(response?.message);
+    }
+  };
+
+  function getValue(
+    type: "done" | "pending" | "cancel",
+    data: ordersDataTypes[]
+  ) {
     let result = 0;
     for (let i = 0; i < data.length; i++) {
       if (data[i].status === type) {
@@ -37,14 +50,18 @@ export const Scale: React.FC<Props> = ({ setfilter }) => {
   }
 
   useEffect(() => {
-    getValue("done", orderData);
-    getValue("pending", orderData);
-    getValue("cancel", orderData);
+    getAllOrders();
   }, []);
+
+  useEffect(() => {
+    getValue("done", orders);
+    getValue("pending", orders);
+    getValue("cancel", orders);
+  }, [orders]);
 
   const data: dataTypes[] = [
     {
-      total: orderData.length,
+      total: orders.length,
       text: "Tổng đơn hàng",
       icon: (
         <i className="bi bi-check2-all card-icon-1 rounded-circle px-3 py-1"></i>
