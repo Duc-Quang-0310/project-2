@@ -4,12 +4,12 @@ import { endpoint } from "./endpoint";
 
 export interface orderCreation {
   client_name: string;
-  employee_ID: number;
-  status: "pending" | "done" | "cancel";
+  employee_ID: number | undefined;
+  status: "pending" | "done" | "cancel" | "";
   address: string;
-  order_product_id: number;
-  product_id: number;
-  quantity: number;
+  order_product_id: number | undefined;
+  product_id: number | undefined;
+  quantity: number | undefined;
 }
 
 export interface orderUpdateType {
@@ -17,7 +17,7 @@ export interface orderUpdateType {
   client_image: string;
   client_name: string;
   employee_ID: number;
-  status: "pending" | "done" | "cancel";
+  status: "pending" | "done" | "cancel" | "";
   address: string;
   product_id: number;
   quantity: number;
@@ -89,7 +89,7 @@ export const xmlService = {
     );
     return response;
   },
-  updateOrder: async (params: orderUpdateType) => {
+  updateOrder: async (params: any) => {
     const response: any = await send(
       "PUT",
       baseURL + endpoint.orders.update,
@@ -100,8 +100,19 @@ export const xmlService = {
   deleteOrder: async (id: number) => {
     const response: any = await send(
       "DELETE",
-      baseURL + endpoint.orders.update,
-      id
+      baseURL + endpoint.orders.delete,
+      { id }
+    );
+    return response;
+  },
+  getAllProduct: async () => {
+    const response: any = await send("GET", baseURL + endpoint.products.getAll);
+    return response;
+  },
+  getTopSeller: async () => {
+    const response: any = await send(
+      "GET",
+      baseURL + endpoint.products.topSeller
     );
     return response;
   },

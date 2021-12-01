@@ -1,8 +1,10 @@
 import { sessionHelper } from "../../Helper/sessionHelper";
 import { Login } from "../../Pages/Auth/Login";
+import { Employee } from "../../Pages/Employee/Employee";
 import { Home } from "../../Pages/Home/Home";
 import { OrderDetails } from "../../Pages/Orders/Details/OrderDetails";
 import { Order } from "../../Pages/Orders/Order";
+import { TheNumbers } from "../../Pages/Static/TheNumbers";
 import { iRoute, route } from "./routesName";
 
 const routes: iRoute[] = [
@@ -23,6 +25,18 @@ const routes: iRoute[] = [
     name: "order",
     exact: true,
     component: OrderDetails,
+  },
+  {
+    path: route.EMPLOYEE,
+    name: "employee",
+    exact: true,
+    component: Employee,
+  },
+  {
+    path: route.STATIC,
+    name: "static",
+    exact: true,
+    component: TheNumbers,
   },
 ];
 

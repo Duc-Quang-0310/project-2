@@ -16,4 +16,8 @@ export const endpoint = {
   orderProducts: {
     totalProductSold: "orderProducts/get_total.php",
   },
+  products: {
+    getAll: "products/get_all.php",
+    topSeller: "products/top_seller.php",
+  },
 };

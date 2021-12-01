@@ -18,6 +18,8 @@ export interface ordersDataTypes {
 
 export const Data: React.FC<Props> = ({ filter }) => {
   const [ShowModal, setShowModal] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [ID, setID] = useState<number>();
   const [orders, setOrders] = useState<any[]>([]);
   const [modalAction, setModalAction] = useState<
     "create" | "update" | "delete" | ""
@@ -53,6 +55,13 @@ export const Data: React.FC<Props> = ({ filter }) => {
     );
   };
 
+  const redirectToUpdate = (id: number): any => {
+    setShowModal(true);
+    setModalAction("update");
+    setIsUpdating(true);
+    setID(id);
+  };
+
   const renderTable = (data: ordersDataTypes, index: any): any => {
     return (
       <tr key={index} className="cursor-pointer">
@@ -79,10 +88,7 @@ export const Data: React.FC<Props> = ({ filter }) => {
             <Button
               className="px-3"
               style={{ marginInlineEnd: "15px" }}
-              onClick={() => {
-                setShowModal(true);
-                setModalAction("update");
-              }}
+              onClick={() => redirectToUpdate(data.order_id)}
             >
               <i className="bi bi-pencil"></i>
             </Button>
@@ -93,6 +99,8 @@ export const Data: React.FC<Props> = ({ filter }) => {
               onClick={() => {
                 setShowModal(true);
                 setModalAction("delete");
+                setIsUpdating(true);
+                setID(data.order_id);
               }}
             >
               <i className="bi bi-x-lg"></i>
@@ -110,7 +118,6 @@ export const Data: React.FC<Props> = ({ filter }) => {
       setOrders(response?.message);
     }
   };
-  console.log(orders);
 
   useEffect(() => {
     getAllOrders();
@@ -161,6 +168,7 @@ export const Data: React.FC<Props> = ({ filter }) => {
         showModal={ShowModal}
         setShowModal={setShowModal}
         action={modalAction}
+        data={isUpdating && ID}
       />
     </div>
   );

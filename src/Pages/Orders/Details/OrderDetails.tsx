@@ -55,9 +55,6 @@ export const OrderDetails: React.FunctionComponent = () => {
     getEmployee();
   }, []);
 
-  console.log(data);
-  console.log(employee);
-
   function render(status: string) {
     if (status === "done") {
       return (
@@ -239,6 +236,7 @@ export const OrderDetails: React.FunctionComponent = () => {
         showModal={ShowModal}
         setShowModal={setShowModal}
         action={modalAction}
+        data={orderData.order_id}
       />
     </div>
   );

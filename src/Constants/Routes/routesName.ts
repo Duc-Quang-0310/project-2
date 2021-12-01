@@ -3,6 +3,8 @@ export const route = {
   ORDER: "/orders",
   ORDER_DETAILS: "/orders/:params",
   LOGIN: "/login",
+  EMPLOYEE: "/employee",
+  STATIC: "/static",
 };
 
 export interface iRoute {

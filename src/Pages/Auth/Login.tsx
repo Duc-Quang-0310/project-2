@@ -41,7 +41,7 @@ export const Login: React.FunctionComponent = () => {
     setLoading(true);
     response = await xmlService.login(account);
     setLoading(false);
-    if (!response.success) {
+    if (!response?.success) {
       setShowToast(true);
     } else {
       sessionHelper.setItem("username", account.username);

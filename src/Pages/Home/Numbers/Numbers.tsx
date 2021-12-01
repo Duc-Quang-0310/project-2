@@ -13,19 +13,7 @@ export const Numbers: React.FunctionComponent = () => {
   const [employee, setEmployee] = useState<any[]>([]);
   const [productsName, setProductsName] = useState([]);
   const [productQuantity, setProductQuantity] = useState([]);
-
-  const CommentData: commentData[] = [
-    {
-      content: "Sản phẩm tốt",
-      author: "Khách hàng 01 ",
-      background: "/imgs/nature2.png",
-    },
-    {
-      content: "Tôi rất thích",
-      author: "Khách hàng 02 ",
-      background: "/imgs/nature.jpg",
-    },
-  ];
+  const [topProducts, setTopProducts] = useState<any[]>([]);
 
   const fetchBestSeller = async () => {
     const response: any = await xmlService.bestSeller();
@@ -44,10 +32,20 @@ export const Numbers: React.FunctionComponent = () => {
     }
   };
 
+  const fetchTopSellerProduct = async () => {
+    const response: any = await xmlService.getTopSeller();
+    if (response?.success) {
+      setTopProducts(response?.message);
+    }
+  };
+
   useEffect(() => {
     fetchBestSeller();
     fetchTotalProductSold();
+    fetchTopSellerProduct();
   }, []);
+
+  console.log(topProducts);
 
   const ChartData = {
     labels: productsName,
@@ -106,14 +104,14 @@ export const Numbers: React.FunctionComponent = () => {
         </Col>
         <Col sm={12} md={4} className="my-2">
           <div className="number-container shadow-sm p-2 ">
-            <h4> Bình luận mới</h4>
-            {CommentData.map((comment, index) => {
+            <h4> Sản phẩm bán chạy</h4>
+            {topProducts.map((item, index) => {
               return (
                 <Card className="my-3 mx-3" key={index}>
                   <div className="position-relative">
                     <Card.Img
                       variant="top"
-                      src={comment.background}
+                      src="/imgs/nature2.png"
                       style={{
                         objectFit: "cover",
                         height: "160px",
@@ -121,7 +119,7 @@ export const Numbers: React.FunctionComponent = () => {
                     />
                     <Card.Img
                       className="rounded-circle w-25 position-absolute "
-                      src="https://picsum.photos/100/100?grayscale?random=2"
+                      src={item.product_image}
                       style={{
                         objectFit: "contain",
                         right: "37%",
@@ -131,9 +129,9 @@ export const Numbers: React.FunctionComponent = () => {
                   </div>
                   <Card.Body className="position-relative pt-5 pb-3">
                     <blockquote className="blockquote text-center">
-                      <p>"{comment.content}"</p>
+                      <p>{item.product_name}</p>
                       <footer className="blockquote-footer text-end ">
-                        {comment.author}
+                        {item.total} sản phẩm đã bán
                       </footer>
                     </blockquote>
                   </Card.Body>

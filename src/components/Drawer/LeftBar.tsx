@@ -3,6 +3,7 @@ import React, { useRef, useEffect, ReactNode } from "react";
 import { ListGroup, ListGroupItem } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { route } from "../../Constants/Routes/routesName";
+import { sessionHelper } from "../../Helper/sessionHelper";
 import "./LeftBar.scss";
 
 interface Props {
@@ -46,17 +47,20 @@ export const LeftBar: React.FunctionComponent<Props> = ({ open, setOpen }) => {
     {
       icon: <i className="bi bi-people drawer-icon"></i>,
       name: "Nhân viên",
-      to: () => history.push(route.ORDER),
+      to: () => history.push(route.EMPLOYEE),
     },
     {
       icon: <i className="bi bi-bar-chart drawer-icon"></i>,
       name: "Thống kê",
-      to: () => history.push(route.ORDER),
+      to: () => history.push(route.STATIC),
     },
     {
-      icon: <i className="bi bi-bank drawer-icon"></i>,
-      name: "Đối tác",
-      to: () => history.push(route.ORDER),
+      icon: <i className="bi bi-box-arrow-left drawer-icon"></i>,
+      name: "Đăng xuất",
+      to: () => {
+        sessionHelper.removeAll();
+        window.location.reload();
+      },
     },
   ];
 
